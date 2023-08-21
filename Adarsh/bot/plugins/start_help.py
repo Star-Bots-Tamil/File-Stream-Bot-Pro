@@ -12,34 +12,13 @@ from pyrogram.errors import UserNotParticipant
 from Adarsh.utils.file_properties import get_name, get_hash, get_media_file_size
 db = Database(Var.DATABASE_URL, Var.name)
 from pyrogram.types import ReplyKeyboardMarkup
-
-if MY_PASS:
-            buttonz=ReplyKeyboardMarkup(
-            [
-                ["start⚡️","help📚","login🔑","DC"],
-                ["follow❤️","ping📡","status📊","maintainers😎"]
-                        
-            ],
-            resize_keyboard=True
-        )
-else:
-            buttonz=ReplyKeyboardMarkup(
-            [
-                ["start⚡️","help📚","DC"],
-                ["follow❤️","ping📡","status📊","maintainers😎"]
-                        
-            ],
-            resize_keyboard=True
-        )
-
-            
-            
-@StreamBot.on_message((filters.command("start") & filters.private))
+   
+@StreamBot.on_message((filters.command("start")) & filters.private)
 async def start(b, m):
     if not await db.is_user_exist(m.from_user.id):
         await db.add_user(m.from_user.id)
         await b.send_message(
-            Var.BIN_CHANNEL,
+            Var.LOG_CHANNEL,
             f"**Nᴇᴡ Usᴇʀ Jᴏɪɴᴇᴅ:** \n\n__Mʏ Nᴇᴡ Fʀɪᴇɴᴅ__ [{m.from_user.first_name}](tg://user?id={m.from_user.id}) __Sᴛᴀʀᴛᴇᴅ Yᴏᴜʀ Bᴏᴛ !!__"
         )
     if Var.UPDATES_CHANNEL != "None":
@@ -78,15 +57,15 @@ async def start(b, m):
         chat_id=m.chat.id,
         photo ="https://telegra.ph/file/ca10e459bc6f48a4ad0f7.jpg",
         caption =f'Hi {m.from_user.mention(style="md")}!,\nI am Telegram File to Link Generator Bot with Channel support.\nSend me any file and get a direct download link and streamable link.!',
-        reply_markup=buttonz)
+        )
 
 
-@StreamBot.on_message((filters.command("help") & filters.private))
+@StreamBot.on_message((filters.command("help")) & filters.private)
 async def help_handler(bot, message):
     if not await db.is_user_exist(message.from_user.id):
         await db.add_user(message.from_user.id)
         await bot.send_message(
-            Var.BIN_CHANNEL,
+            Var.LOG_CHANNEL,
             f"**Nᴇᴡ Usᴇʀ Jᴏɪɴᴇᴅ **\n\n__Mʏ Nᴇᴡ Fʀɪᴇɴᴅ__ [{message.from_user.first_name}](tg://user?id={message.from_user.id}) __Started Your Bot !!__"
         )
     if Var.UPDATES_CHANNEL != "None":
