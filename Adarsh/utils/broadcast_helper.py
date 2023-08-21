@@ -4,7 +4,7 @@ import asyncio
 import traceback
 from pyrogram.errors import FloodWait, InputUserDeactivated, UserIsBlocked, PeerIdInvalid
 from WebStreamer.vars import Var
-broadcast_ids = {}
+Broadcast_IDs = {}
 
 BROADCAST_AS_COPY = Var.BROADCAST_AS_COPY
 
@@ -19,10 +19,10 @@ async def send_msg(user_id, message):
         await asyncio.sleep(e.x)
         return send_msg(user_id, message)
     except InputUserDeactivated:
-        return 400, f"{user_id} : deactivated\n"
+        return 400, f"{user_id} : Deactivated\n"
     except UserIsBlocked:
-        return 400, f"{user_id} : blocked the bot\n"
+        return 400, f"{user_id} : Blocked The Bot\n"
     except PeerIdInvalid:
-        return 400, f"{user_id} : user id invalid\n"
+        return 400, f"{user_id} : User ID Invalid\n"
     except Exception as e:
         return 500, f"{user_id} : {traceback.format_exc()}\n"
