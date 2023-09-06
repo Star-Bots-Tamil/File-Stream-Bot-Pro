@@ -21,6 +21,7 @@ class Var(object):
     PING_INTERVAL = int(environ.get("PING_INTERVAL", "1200"))  # 20 minutes
     OWNER_ID = set(int(x) for x in os.environ.get("OWNER_ID", "1391556668").split())  
     NO_PORT = bool(getenv('NO_PORT', False))
+    PORT = int(environ.get("PORT", 8080))
     APP_NAME = None
     OWNER_USERNAME = str(getenv('OWNER_USERNAME', '@TG_Karthik'))
     if 'DYNO' in environ:
@@ -29,7 +30,7 @@ class Var(object):
     
     else:
         ON_HEROKU = False
-    FQDN = str(getenv('FQDN', '16.171.19.76:8080')) if not ON_HEROKU or getenv('FQDN', '16.171.19.76:8080') else APP_NAME+'.herokuapp.com'
+    FQDN = str(getenv('FQDN', 'dl.starbotstamil.workers.dev:8080')) if not ON_HEROKU or getenv('FQDN', '16.171.19.76:8080') else APP_NAME+'.herokuapp.com'
     HAS_SSL=bool(getenv('HAS_SSL',False))
     if HAS_SSL:
         URL = "https://{}/".format(FQDN)
