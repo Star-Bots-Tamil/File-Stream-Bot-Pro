@@ -3,7 +3,7 @@
 import asyncio
 import traceback
 from pyrogram.errors import FloodWait, InputUserDeactivated, UserIsBlocked, PeerIdInvalid
-from WebStreamer.vars import Var
+from Adarsh.vars import Var
 Broadcast_IDs = {}
 
 BROADCAST_AS_COPY = Var.BROADCAST_AS_COPY
