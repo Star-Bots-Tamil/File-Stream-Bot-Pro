@@ -30,18 +30,18 @@ loop = asyncio.get_event_loop()
 
 async def start_services():
     print('\n')
-    print('------------------- Initalizing Telegram Bot -------------------')
+    print('Initalizing File to Link Star Bots')
     bot_info = await StreamBot.get_me()
     StreamBot.username = bot_info.username
-    print("------------------------------ DONE ------------------------------")
+    print("👍🏻 Done")
     print()
     print(
-        "---------------------- Initializing Clients ----------------------"
+        "Initializing Clients"
     )
     await initialize_clients()
-    print("------------------------------ DONE ------------------------------")
+    print("👍🏻 Done")
     print('\n')
-    print('--------------------------- Importing ---------------------------')
+    print('Importing...')
     for name in files:
         with open(name) as a:
             patt = Path(a.name)
@@ -54,19 +54,19 @@ async def start_services():
             sys.modules["Adarsh.bot.plugins." + plugin_name] = load
             print("Imported => " + plugin_name)
     if Var.ON_HEROKU:
-        print("------------------ Starting Keep Alive Service ------------------")
+        print("Starting Keep Alive Service")
         print()
         asyncio.create_task(ping_server())
-    print('-------------------- Initalizing Web Server -------------------------')
+    print('Initalizing Web Server')
     app = web.AppRunner(await web_server())
     await app.setup()
     bind_address = "0.0.0.0" if Var.ON_HEROKU else Var.BIND_ADRESS
     await web.TCPSite(app, bind_address, Var.PORT).start()
-    print('----------------------------- DONE ---------------------------------------------------------------------')
+    print('👍🏻 Done')
     print('\n')
-    print('---------------------------------------------------------------------------------------------------------')
-    print('---------------------------------------------------------------------------------------------------------')
-    print(' follow me for more such exciting bots! https://github.com/adarsh-goel')
+    print('Wait Pannunga')
+    print('Konja Neram Tha')
+    print('Follow me for more such exciting bots! https://github.com/Star-Bots-Tamil')
     print('---------------------------------------------------------------------------------------------------------')
     print('\n')
     print('----------------------- Service Started -----------------------------------------------------------------')
