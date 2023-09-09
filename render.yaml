@@ -4,7 +4,7 @@ services:
     name: File-Stream-Bot-Pro
     env: python
     buildCommand: pip install -r requirements.txt
-    startCommand: python3 bot.py
+    startCommand: python3 -m Adarsh
     repo: https://github.com/Star-Bots-Tamil/File-Stream-Bot-Pro.git      
     branch: main
     envVars:
@@ -34,4 +34,4 @@ services:
         sync: false
       - key: BIN_CHANNEL
         sync: false    
-    autoDeploy: false 
+    autoDeploy: true 
