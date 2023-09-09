@@ -33,13 +33,13 @@ async def start_services():
     print('Initalizing File to Link Star Bots')
     bot_info = await StreamBot.get_me()
     StreamBot.username = bot_info.username
-    print("👍🏻 Done")
+    print("✅ Done")
     print()
     print(
         "Initializing Clients"
     )
     await initialize_clients()
-    print("👍🏻 Done")
+    print("✅ Done")
     print('\n')
     print('Importing...')
     for name in files:
@@ -62,22 +62,20 @@ async def start_services():
     await app.setup()
     bind_address = "0.0.0.0" if Var.ON_HEROKU else Var.BIND_ADRESS
     await web.TCPSite(app, bind_address, Var.PORT).start()
-    print('👍🏻 Done')
+    print('✅ Done')
     print('\n')
     print('Wait Pannunga')
     print('Konja Neram Tha')
     print('Follow me for more such exciting bots! https://github.com/Star-Bots-Tamil')
-    print('---------------------------------------------------------------------------------------------------------')
+    print('Deploy Pannikkiddu irukku')
     print('\n')
-    print('----------------------- Service Started -----------------------------------------------------------------')
+    print('Bot Service Started')
     print('                        bot =>> {}'.format((await StreamBot.get_me()).first_name))
     print('                        server ip =>> {}:{}'.format(bind_address, Var.PORT))
     print('                        Owner =>> {}'.format((Var.OWNER_USERNAME)))
     if Var.ON_HEROKU:
         print('                        app runnng on =>> {}'.format(Var.FQDN))
-    print('---------------------------------------------------------------------------------------------------------')
-    print('Give a star to my repo https://github.com/adarsh-goel/filestreambot-pro  also follow me for new bots')
-    print('---------------------------------------------------------------------------------------------------------')
+    print('Give a star to my repo https://github.com/Star-Bots-Tamil/File-Stream-Bot-Pro  also follow me for new bots')
     await idle()
 
 if __name__ == '__main__':
