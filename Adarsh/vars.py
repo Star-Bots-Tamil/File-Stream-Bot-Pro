@@ -41,3 +41,6 @@ class Var(object):
     BANNED_CHANNELS = list(set(int(x) for x in str(getenv("BANNED_CHANNELS", "-1001296894100")).split())) 
     LOG_CHANNEL = int(os.environ.get("LOG_CHANNEL", "-1001821439025"))
     BROADCAST_AS_COPY = bool(os.environ.get("BROADCAST_AS_COPY", True))
+    KEEP_ALIVE = str(environ.get("KEEP_ALIVE", "1").lower()) in  ("1", "true", "t", "yes", "y")
+    DEBUG = str(environ.get("DEBUG", "0").lower()) in ("1", "true", "t", "yes", "y")
+    USE_SESSION_FILE = str(environ.get("USE_SESSION_FILE", "0").lower()) in ("1", "true", "t", "yes", "y")
