@@ -1,4 +1,3 @@
-# (c) adarsh-goel
 import os
 import sys
 import glob
@@ -15,57 +14,71 @@ from .utils.keepalive import ping_server
 from Adarsh.bot.clients import initialize_clients
 
 logging.basicConfig(
-    level=logging.DEBUG if Var.DEBUG else logging.INFO,
-    datefmt="%d/%m/%Y %H:%M:%S",
-    format="[%(asctime)s][%(name)s][%(levelname)s] ==> %(message)s",
-    handlers=[logging.StreamHandler(stream=sys.stdout),
-              logging.FileHandler("streambot.log", mode="a", encoding="utf-8")],)
+    level=logging.INFO,
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+)
+logging.getLogger("aiohttp").setLevel(logging.ERROR)
+logging.getLogger("pyrogram").setLevel(logging.ERROR)
+logging.getLogger("aiohttp.web").setLevel(logging.ERROR)
 
-logging.getLogger("aiohttp").setLevel(logging.DEBUG if Var.DEBUG else logging.ERROR)
-logging.getLogger("pyrogram").setLevel(logging.INFO if Var.DEBUG else logging.ERROR)
-logging.getLogger("aiohttp.web").setLevel(logging.DEBUG if Var.DEBUG else logging.ERROR)
-
-server = web.AppRunner(web_server())
-
-# if sys.version_info[1] > 9:
-#     loop = asyncio.new_event_loop()
-#     asyncio.set_event_loop(loop)
-# else:
+ppath = "Adarsh/bot/plugins/*.py"
+files = glob.glob(ppath)
+StreamBot.start()
 loop = asyncio.get_event_loop()
 
 
-
 async def start_services():
-    logging.info("Initializing Telegram Bot")
-    await StreamBot.start()
+    print('\n')
+    print('Initalizing File to Link Star Bots')
     bot_info = await StreamBot.get_me()
-    logging.debug(bot_info)
     StreamBot.username = bot_info.username
-    logging.info("Initialized Telegram Bot")
+    print("✅ Done")
+    print()
+    print(
+        "Initializing Clients"
+    )
     await initialize_clients()
-    if Var.KEEP_ALIVE:
-        asyncio.create_task(utils.ping_server())
-    await server.setup()
-    await web.TCPSite(server, Var.BIND_ADDRESS, Var.PORT).start()
-    logging.info("Service Started")
-    logging.info("bot =>> {}".format(bot_info.first_name))
-    if bot_info.dc_id:
-        logging.info("DC ID =>> {}".format(str(bot_info.dc_id)))
-    logging.info("URL =>> {}".format(Var.URL))
+    print("✅ Done")
+    print('\n')
+    print('Importing...')
+    for name in files:
+        with open(name) as a:
+            patt = Path(a.name)
+            plugin_name = patt.stem.replace(".py", "")
+            plugins_dir = Path(f"Adarsh/bot/plugins/{plugin_name}.py")
+            import_path = ".plugins.{}".format(plugin_name)
+            spec = importlib.util.spec_from_file_location(import_path, plugins_dir)
+            load = importlib.util.module_from_spec(spec)
+            spec.loader.exec_module(load)
+            sys.modules["Adarsh.bot.plugins." + plugin_name] = load
+            print("Imported => " + plugin_name)
+    if Var.ON_HEROKU:
+        print("Starting Keep Alive Service")
+        print()
+        asyncio.create_task(ping_server())
+    print('Initalizing Web Server')
+    app = web.AppRunner(await web_server())
+    await app.setup()
+    bind_address = "0.0.0.0" if Var.ON_HEROKU else Var.BIND_ADRESS
+    await web.TCPSite(app, '0.0.0.0', 8080).start()
+    print('✅ Done')
+    print('\n')
+    print('Wait Pannunga')
+    print('Konja Neram Tha')
+    print('Follow me for more such exciting bots! https://github.com/Star-Bots-Tamil')
+    print('Deploy Pannikkiddu irukku')
+    print('\n')
+    print('Bot Service Started')
+    print('                        bot =>> {}'.format((await StreamBot.get_me()).first_name))
+    print('                        server ip =>> {}:{}'.format(bind_address, Var.PORT))
+    print('                        Owner =>> {}'.format((Var.OWNER_USERNAME)))
+    if Var.ON_HEROKU:
+        print('                        app runnng on =>> {}'.format(Var.FQDN))
+    print('Give a star to my repo https://github.com/Star-Bots-Tamil/File-Stream-Bot-Pro  also follow me for new bots')
     await idle()
 
-async def cleanup():
-    await server.cleanup()
-    await StreamBot.stop()
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     try:
         loop.run_until_complete(start_services())
     except KeyboardInterrupt:
-        pass
-    except Exception as err:
-        logging.error(err.with_traceback(None))
-    finally:
-        loop.run_until_complete(cleanup())
-        loop.stop()
-        logging.info("Stopped Services")
+        logging.info('----------------------- Service Stopped -----------------------')
